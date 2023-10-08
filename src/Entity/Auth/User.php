@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Entity\Blog\Comment;
@@ -32,6 +33,14 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(normalizationContext: ['groups' => ['user:read', 'user:read:full']]),
         new Patch(denormalizationContext: ['groups' => ['user:write:update']]),
     ],
+    graphQlOperations: [
+        new Query(),
+        new Query(name: 'CustomQuery', args: [
+            'where' => ['type' => 'UserWhereInput'],
+            'order' => ['type' => 'UserOrderInput'],
+            'pagination' => ['type' => 'PaginationInput'],
+        ])
+    ]
 )]
 #[UniqueEntity(fields: ['email'])]
 #[ORM\Table(name: '`user`')]

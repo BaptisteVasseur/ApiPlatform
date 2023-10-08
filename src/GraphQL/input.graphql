@@ -1,0 +1,47 @@
+input DateInput {
+    equals: String
+    not_equals: String
+    lt: String
+    lte: String
+    gt: String
+    gte: String
+}
+
+input TextInput {
+    equals: String
+    not_equals: String
+    in: [String!]
+    not_in: [String!]
+    start_with: String
+    end_with: String
+    contain: String
+    not_contain: String
+    not_start_with: String
+    not_end_with: String
+}
+
+input ValueInput {
+    equals: String
+    not_equals: String
+    in: [String!]
+    not_in: [String!]
+    lt: String
+    lte: String
+    gt: String
+    gte: String
+}
+
+input PaginationInput {
+    perPage: Int = 30
+    currentPage: Int = 1
+}
+
+input EnumInput {
+    is: String
+    is_not: String
+}
+
+enum OrderEnum {
+    ASC
+    DESC
+}

@@ -1,0 +1,13 @@
+input UserWhereInput {
+    name: TextInput
+    email: TextInput
+    createdAt: DateInput
+    AND: [UserWhereInput!]
+    OR: [UserWhereInput!]
+}
+
+input UserOrderInput {
+    id: OrderEnum
+    createdAt: OrderEnum
+    confirmedAt: OrderEnum
+}

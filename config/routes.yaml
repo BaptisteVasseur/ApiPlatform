@@ -7,3 +7,15 @@
 api_login_route:
   path: /api/login
   methods: ['POST']
+
+api_graphql_entrypoint:
+  path: /graphql
+  controller: api_platform.graphql.action.entrypoint
+
+graphiql:
+  path: /docs/graphiql
+  controller: api_platform.graphql.action.graphiql
+
+graphql_playground:
+  path: /docs/graphql_playground
+  controller: api_platform.graphql.action.graphql_playground

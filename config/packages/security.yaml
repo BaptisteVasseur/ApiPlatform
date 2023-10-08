@@ -34,6 +34,10 @@ security:
 
     access_control:
         - { path: ^/api/docs, roles: PUBLIC_ACCESS }
+
+        - { path: ^/graphql, roles: PUBLIC_ACCESS }
+        - { path: ^/docs, roles: PUBLIC_ACCESS }
+
         - { path: ^/api/users, roles: PUBLIC_ACCESS, method: POST }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
