@@ -1,0 +1,60 @@
+\App\Entity\User:
+  user_{1..5}:
+    email: '<email()>'
+    firstName: '<firstname()>'
+    plainPassword: 'motdepasse'
+
+\App\Entity\Book:
+  book_{1..10}:
+    title: '<sentence()>'
+    createdBy: '@user_<rand(1, 5)>'
+
+\App\Entity\Chapter:
+  chapter_{@book_*}:
+    name: '<sentence()>'
+    book: '<current()>'
+  chapter_2_{@book_*}:
+    name: '<sentence()>'
+    book: '<current()>'
+
+\App\Entity\Page:
+  page_{@chapter_*}:
+    content: '<paragraph()>'
+    chapter: '<current()>'
+    number: '<rand(1, 10)>'
+  page_2_{@chapter_*}:
+    content: '<paragraph()>'
+    chapter: '<current()>'
+    number: '<rand(1, 10)>'
+  page_3_{@chapter_*}:
+    content: '<paragraph()>'
+    chapter: '<current()>'
+    number: '<rand(1, 10)>'
+
+\App\Entity\Review:
+  review_{1..20}:
+    content: '<paragraph()>'
+    createdBy: '@user_<rand(1, 5)>'
+    book: '@book_<rand(1, 10)>'
+
+\App\Entity\Comment:
+  comment_{1..100}:
+    content: '<sentence()>'
+    createdBy: '@user_<rand(1, 5)>'
+    review: '@review_<rand(1, 20)>'
+
+\App\Entity\Annotation:
+  annotation_{1..50}:
+    content: '<sentences(2, true)>'
+    createdBy: '@user_<rand(1, 5)>'
+    page: '@page_*'
+    line: '<rand(1, 50)>'
+    word: '<rand(1, 50)>'
+
+\App\Entity\ReadList:
+  list_{1..30}:
+    name: '<sentence()>'
+    createdBy: '@user_*'
+    books:
+      - "@book_*"
+      - "@book_*"
