@@ -8,17 +8,27 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\HttpOperation;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model\Example;
+use ApiPlatform\OpenApi\Model\Operation;
+use ApiPlatform\OpenApi\Model\RequestBody;
+use ApiPlatform\OpenApi\Model\Response;
+use ApiPlatform\OpenApi\Model\Schema;
+use App\Action\User\BanUserAction;
 use App\Entity\Blog\Comment;
 use App\Entity\Blog\Publication;
 use App\Entity\Shop\Product;
 use App\Filters\CustomSearchFilter;
+use ArrayObject;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -32,6 +42,51 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(),
         new Get(normalizationContext: ['groups' => ['user:read', 'user:read:full']]),
         new Patch(denormalizationContext: ['groups' => ['user:write:update']]),
+        new HttpOperation(
+            method: Request::METHOD_POST,
+            uriTemplate: '/users/{id}/ban',
+            controller: BanUserAction::class,
+            openapi: new Operation(
+                tags: ['User Management', 'User'],
+                summary: 'Ban a user account',
+                description: 'Ban a user for some reason',
+                requestBody: new RequestBody(
+                    content: new ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'reason' => ['type' => 'string'],
+                                ]
+                            ],
+                            'example' => [
+                                'reason' => 'Say insults, nsfw picture, ...',
+                            ]
+                        ]
+                    ]),
+                ),
+                responses: [
+                    HTTPResponse::HTTP_OK => new Response(description: 'User has been banned', content: new ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'until' => ['type' => 'string', 'format' => 'date-time'],
+                                ],
+                            ],
+                            'example' => [
+                                'until' => '2023-12-31T23:59:59Z',
+                            ],
+                        ]
+                    ])),
+                    HTTPResponse::HTTP_FORBIDDEN => new Response(description: "User can't be banned."),
+                    HTTPResponse::HTTP_NOT_FOUND => new Response(description: 'User not found.'),
+                    HTTPResponse::HTTP_CREATED => new Response(description: 'Ø Not used Ø'),
+                    HTTPResponse::HTTP_BAD_REQUEST => new Response(description: 'Ø Not used Ø'),
+                    HTTPResponse::HTTP_UNPROCESSABLE_ENTITY => new Response(description: 'Ø Not used Ø'),
+                ]
+            )
+        ),
     ],
     graphQlOperations: [
         new Query(),

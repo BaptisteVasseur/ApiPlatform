@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Filters;
+namespace App\Filter;
 
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\PropertyHelperTrait;

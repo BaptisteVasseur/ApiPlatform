@@ -29,9 +29,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(),
         new Post(),
-         new Get(),
-         new Patch(),
-         new Delete(),
+        new Get(),
+        new Patch(),
+        new Delete(),
     ]
 )]
 #[ORM\Entity]
