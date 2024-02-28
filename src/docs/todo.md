@@ -5,7 +5,7 @@
 
 - 1 - Lire le cahier des charges
 - 2 - Créer un nouveau projet API Platform
-- 3 - Liste les entités à créer
+- 3 - Lister les entités à créer
 - 4 - Pour chaque entité, lister les propriétés et leurs types
 
 ## Symfony
