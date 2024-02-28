@@ -1,0 +1,31 @@
+App\Entity\Category:
+  category_{1..10}:
+    name: '<word()>'
+
+App\Entity\Ingredient:
+  ingredient_{1..50}:
+    name: '<sentence()>'
+
+App\Entity\Quantity:
+  quantity_{@recipe_*}:
+    recipe: '<current()>'
+    ingredient: '@ingredient_*'
+    type: '<randomElement(["g", "ml", "cc", "cs"])>'
+    amount: '<numberBetween(1, 10)>'
+
+App\Entity\User:
+  user_{1..10}:
+    firstName: '<firstName()>'
+    lastName: '<lastName()>'
+    email: '<email()>'
+    password: '<password()>'
+
+App\Entity\Recipe:
+  recipe_{1..100}:
+    title: 'Recipe <current()>'
+    description: 'Description of the recipe <current()>'
+    category: '@category_*'
+    difficulty: '<randomElement(["easy", "medium", "hard"])>'
+    status: '<randomElement(["draft", "published"])>'
+    images: '<imageUrl(640, 480, "food")>, <imageUrl(640, 480, "food")>'
+    creator: '@user_*'
